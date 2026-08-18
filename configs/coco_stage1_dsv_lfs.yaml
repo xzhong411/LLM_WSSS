@@ -1,0 +1,67 @@
+name: coco_stage1_dsv_lfs
+purpose: "First runnable COCO reproduction stage using local DSV-LFS LLaVA/SAM assets."
+
+paths:
+  project_root: /data0/zhongxiang/LLM-ERI-repro
+  dsv_lfs_root: /data0/zhongxiang/DSV-LFS-main
+  llava_model: /data0/zhongxiang/DSV-LFS-main/llava-v1.5-7b
+  clip_vision_tower: /data0/zhongxiang/DSV-LFS-main/clip-vit-large-patch14-336
+  sam_checkpoint: /data0/zhongxiang/DSV-LFS-main/sam_vit_h_4b8939.pth
+  coco_split_dir: /data0/zhongxiang/ExCEL/datasets/coco
+  class_file: /data0/zhongxiang/LLM-ERI-repro/data/classes/coco2014.txt
+  semantic_parts: /data0/zhongxiang/LLM-ERI-repro/data/semantic_parts/coco2014_codex_k5.json
+  output_root: /data0/zhongxiang/LLM-ERI-repro/runs
+
+paper_settings:
+  dataset: MS COCO 2014
+  backbone: CLIP-ViT
+  llm_for_spd: GPT-4
+  llm_temperature: 0.0
+  llm_top_p: 1.0
+  llm_max_output_tokens: 64
+  llm_num_generations: 1
+  foreground_classes: 80
+  train_images_approx: 80000
+  val_images_approx: 40000
+  semantic_components_k: 5
+  regenerate_if_valid_components_lt_k: true
+  cache_component_descriptions: true
+  components_per_multimodal_forward: 5
+  llava_hidden_size: 4096
+  llava_layer_for_s_pk: final_layer_hidden_states
+  llava_token_pooling: mean_pool_component_description_span
+  llava_forward_passes_per_image: one_per_positive_category
+  sam_image_encoder: not_used
+  overlap_resolution: largest_foreground_score
+  crf_postprocessing: not_used
+  optimizer: AdamW
+  learning_rate: 2.0e-5
+  batch_size: 2
+  epochs: 20
+  gpu: NVIDIA A100-PCIE-40GB
+  backbone_state: frozen
+  multimodal_llm_state: frozen
+  visual_semantic_projection_layers_state: trainable
+  four_d_module_state: trainable
+  mask_decoder_state: trainable
+
+smoke:
+  deepspeed_num_gpus: 2
+  precision: bf16
+  epochs: 1
+  steps_per_epoch: 1
+  batch_size: 1
+  grad_accumulation_steps: 1
+  lora_r: 0
+  image_size: 512
+
+full_coco:
+  deepspeed_num_gpus: 2
+  precision: bf16
+  epochs: 20
+  steps_per_epoch_approx: 40000
+  batch_size_per_gpu: 1
+  global_batch_size: 2
+  grad_accumulation_steps: 1
+  lora_r: 0
+  image_size: 512

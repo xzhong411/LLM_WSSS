@@ -1,0 +1,156 @@
+{
+  "metadata": {
+    "prompt_template_from_paper_fig1": "Decompose category [{category}] into semantic parts decoupling",
+    "k": 5,
+    "paper_generation_settings": {
+      "temperature": null,
+      "top_p": null,
+      "max_output_tokens": null,
+      "num_generations": null,
+      "seed_policy": null
+    }
+  },
+  "classes": {
+    "aeroplane": [
+      {"name": "nose", "description": "The forward tapered nose forms the sharp leading silhouette of an aeroplane."},
+      {"name": "wings", "description": "The broad lateral wings extend from the fuselage and define most of the object span."},
+      {"name": "fuselage", "description": "The long central body links the cockpit, wings, tail, and engines into one structure."},
+      {"name": "tail", "description": "The rear vertical and horizontal stabilizers create a compact tail assembly."},
+      {"name": "engines", "description": "Engine pods or intakes appear as rounded mechanical parts attached to wings or fuselage."}
+    ],
+    "bicycle": [
+      {"name": "wheels", "description": "Two thin circular wheels dominate the bicycle outline and often contain visible spokes."},
+      {"name": "frame", "description": "The angular metal frame connects the wheels, seat, handlebar, and pedals."},
+      {"name": "handlebar", "description": "The handlebar is the narrow steering part above the front wheel."},
+      {"name": "seat", "description": "The saddle is a small dark support placed above the frame."},
+      {"name": "pedal_chain", "description": "The pedal and chain region forms a compact mechanical cluster near the lower center."}
+    ],
+    "bird": [
+      {"name": "beak", "description": "The beak forms a narrow, tapering, sharply defined outer silhouette."},
+      {"name": "wings", "description": "The wings are layered side structures that may be folded or spread from the body."},
+      {"name": "claws", "description": "The claws are small pointed foot details at the lower end of the legs."},
+      {"name": "plumage", "description": "The plumage is the feathered surface texture covering the body, wings, and head."},
+      {"name": "tail", "description": "The tail feathers form a rear fan or tapered extension of the body."}
+    ],
+    "boat": [
+      {"name": "hull", "description": "The hull is the main floating body with a curved or elongated lower silhouette."},
+      {"name": "bow", "description": "The bow is the pointed or raised front part cutting through water."},
+      {"name": "stern", "description": "The stern is the rear structure, often flatter and sometimes containing a motor."},
+      {"name": "deck", "description": "The deck is the top surface where cabins, seats, or rails appear."},
+      {"name": "mast_cabin", "description": "A mast, cabin, or upper fixture provides vertical structure above the hull."}
+    ],
+    "bottle": [
+      {"name": "neck", "description": "The narrow neck rises above the wider body and leads to the opening."},
+      {"name": "cap", "description": "The cap or top rim is a small closure at the highest point."},
+      {"name": "body", "description": "The body is the main cylindrical or contoured volume of the bottle."},
+      {"name": "shoulder", "description": "The shoulder is the sloped transition between body and neck."},
+      {"name": "base", "description": "The base is the flat or rounded bottom support of the bottle."}
+    ],
+    "bus": [
+      {"name": "front", "description": "The front face contains windshield, lights, and a broad vertical vehicle plane."},
+      {"name": "side_body", "description": "The long rectangular side body forms most of the bus mass."},
+      {"name": "windows", "description": "Rows of large rectangular windows are repeated along the upper side."},
+      {"name": "doors", "description": "Passenger doors create vertical panels on the side or front."},
+      {"name": "wheels", "description": "Large dark wheels appear along the lower edge of the vehicle."}
+    ],
+    "car": [
+      {"name": "front_rear", "description": "The front and rear ends contain lights, bumpers, grille, or trunk surfaces."},
+      {"name": "body", "description": "The main body is a compact rounded vehicle shell."},
+      {"name": "roof", "description": "The roof and cabin top create the upper contour of the vehicle."},
+      {"name": "windows", "description": "Windshield and side windows form dark glass regions in the cabin."},
+      {"name": "wheels", "description": "Round wheels anchor the lower corners and distinguish the car from background roads."}
+    ],
+    "cat": [
+      {"name": "head", "description": "The head contains the face, ears, eyes, and muzzle and is often highly salient."},
+      {"name": "ears", "description": "Pointed ears create two triangular structures above the head."},
+      {"name": "torso", "description": "The torso is the flexible central body covered by fur."},
+      {"name": "legs_paws", "description": "Legs and paws form slender supports beneath or beside the torso."},
+      {"name": "tail", "description": "The tail is a long curved extension from the rear body."}
+    ],
+    "chair": [
+      {"name": "backrest", "description": "The backrest is the upright support behind the seating area."},
+      {"name": "seat", "description": "The seat is the horizontal surface where a person sits."},
+      {"name": "legs", "description": "The legs are narrow supports descending from the seat to the ground."},
+      {"name": "arms", "description": "Armrests, when present, form lateral supports beside the seat."},
+      {"name": "frame", "description": "The frame connects backrest, seat, legs, and arms into a single object."}
+    ],
+    "cow": [
+      {"name": "head", "description": "The head includes muzzle, eyes, ears, and often horns."},
+      {"name": "torso", "description": "The large barrel-shaped torso forms most of the cow's visible mass."},
+      {"name": "legs", "description": "Four long legs support the heavy body and create vertical lower structures."},
+      {"name": "tail", "description": "The tail is a thin rear extension often ending with a tuft."},
+      {"name": "hide_pattern", "description": "The hide pattern and broad animal surface help distinguish the cow from background."}
+    ],
+    "diningtable": [
+      {"name": "tabletop", "description": "The tabletop is the broad horizontal surface defining the table extent."},
+      {"name": "edges", "description": "Straight edges and corners outline the tabletop boundary."},
+      {"name": "legs", "description": "Table legs are vertical supports beneath the top."},
+      {"name": "apron_frame", "description": "The apron or support frame connects the top to the legs."},
+      {"name": "surface_items", "description": "Objects on the tabletop may occlude it but still indicate the table region."}
+    ],
+    "dog": [
+      {"name": "head", "description": "The head contains the muzzle, eyes, ears, and nose."},
+      {"name": "ears", "description": "Ears may be pointed, floppy, or folded and sit on both sides of the head."},
+      {"name": "torso", "description": "The torso is the central fur-covered body mass."},
+      {"name": "legs_paws", "description": "Legs and paws support the body and extend below the torso."},
+      {"name": "tail", "description": "The tail extends from the rear and may be curved, raised, or lowered."}
+    ],
+    "horse": [
+      {"name": "head_neck", "description": "The elongated head and neck form a distinctive forward upper structure."},
+      {"name": "torso", "description": "The large muscular torso forms the main body mass."},
+      {"name": "legs_hooves", "description": "Long legs and hooves create four strong vertical supports."},
+      {"name": "mane", "description": "The mane is a hair ridge along the neck."},
+      {"name": "tail", "description": "The tail is a long hair-covered extension from the rear."}
+    ],
+    "motorbike": [
+      {"name": "wheels", "description": "Two round wheels define the lower front and rear extent."},
+      {"name": "handlebar", "description": "The handlebar and fork form the steering structure above the front wheel."},
+      {"name": "seat", "description": "The seat is a narrow support above the central frame."},
+      {"name": "frame_engine", "description": "The frame and engine create a dense mechanical cluster in the middle."},
+      {"name": "body_panels", "description": "Body panels, tank, and fairing shape the visible outer surface."}
+    ],
+    "person": [
+      {"name": "head", "description": "The head is the upper round or oval body part containing face and hair."},
+      {"name": "torso", "description": "The torso is the central upright body region often covered by clothing."},
+      {"name": "arms", "description": "Arms extend from shoulders and may bend or occlude the torso."},
+      {"name": "legs", "description": "Legs extend downward from the hips and define the standing or sitting pose."},
+      {"name": "hands_feet", "description": "Hands and feet are small extremities at the ends of limbs."}
+    ],
+    "pottedplant": [
+      {"name": "pot", "description": "The pot is the container at the base with a solid geometric silhouette."},
+      {"name": "stem", "description": "Stems rise from the pot and connect leaves or flowers."},
+      {"name": "leaves", "description": "Leaves create irregular green shapes around the upper plant."},
+      {"name": "flowers", "description": "Flowers, when present, add small bright regions among leaves."},
+      {"name": "soil_base", "description": "The soil or base region sits between pot rim and plant stems."}
+    ],
+    "sheep": [
+      {"name": "head", "description": "The head includes muzzle, ears, and eyes and may contrast with wool."},
+      {"name": "wool_body", "description": "The wool-covered torso forms a rounded textured mass."},
+      {"name": "legs", "description": "Thin legs extend downward beneath the wool body."},
+      {"name": "ears", "description": "Ears protrude laterally from the head."},
+      {"name": "tail", "description": "A small tail may appear at the rear edge of the wool body."}
+    ],
+    "sofa": [
+      {"name": "backrest", "description": "The backrest is the large rear cushion or upholstered vertical plane."},
+      {"name": "seat_cushions", "description": "Seat cushions create broad horizontal padded regions."},
+      {"name": "armrests", "description": "Armrests form bulky side structures on one or both ends."},
+      {"name": "base", "description": "The lower base supports the cushions and often sits close to the floor."},
+      {"name": "upholstery", "description": "Continuous upholstery texture links the cushions into one sofa object."}
+    ],
+    "train": [
+      {"name": "front_engine", "description": "The front engine or cab forms a leading face with windows and lights."},
+      {"name": "carriages", "description": "Repeated carriage bodies extend along the track direction."},
+      {"name": "windows", "description": "Rows of windows mark the passenger compartments."},
+      {"name": "wheels_tracks", "description": "Wheels and undercarriage align with rails at the bottom."},
+      {"name": "roof", "description": "The roofline forms a long upper contour across the train."}
+    ],
+    "tvmonitor": [
+      {"name": "screen", "description": "The screen is the large flat rectangular display area."},
+      {"name": "bezel", "description": "The bezel is the border framing the screen."},
+      {"name": "stand", "description": "The stand supports the monitor below or behind the display."},
+      {"name": "base", "description": "The base is the flat lower support connected to the stand."},
+      {"name": "back_panel", "description": "The rear panel and casing define the monitor volume when seen from an angle."}
+    ]
+  }
+}
+

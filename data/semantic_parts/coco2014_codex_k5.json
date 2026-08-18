@@ -1,0 +1,1775 @@
+{
+  "metadata": {
+    "prompt_template_from_paper_fig1": "Decompose category [{category}] into semantic parts decoupling",
+    "k": 5,
+    "paper_generation_settings": {
+      "temperature": null,
+      "top_p": null,
+      "max_output_tokens": null,
+      "num_generations": null,
+      "seed_policy": null
+    }
+  },
+  "classes": {
+    "person": [
+      {
+        "name": "head",
+        "description": "The head is the upper round or oval body part containing face and hair."
+      },
+      {
+        "name": "torso",
+        "description": "The torso is the central upright body region often covered by clothing."
+      },
+      {
+        "name": "arms",
+        "description": "Arms extend from the shoulders and may bend, overlap, or gesture around the body."
+      },
+      {
+        "name": "legs",
+        "description": "Legs extend downward from the hips and define standing, walking, or sitting pose."
+      },
+      {
+        "name": "hands_feet",
+        "description": "Hands and feet are small extremities at the ends of limbs and often mark pose boundaries."
+      }
+    ],
+    "bicycle": [
+      {
+        "name": "wheels",
+        "description": "Two thin circular wheels dominate the bicycle outline and often contain visible spokes."
+      },
+      {
+        "name": "frame",
+        "description": "The angular frame connects the wheels, seat, handlebar, and pedals."
+      },
+      {
+        "name": "handlebar",
+        "description": "The handlebar is the narrow steering part above the front wheel."
+      },
+      {
+        "name": "seat",
+        "description": "The saddle is a small support placed above the frame."
+      },
+      {
+        "name": "pedal_chain",
+        "description": "The pedal and chain region forms a compact mechanical cluster near the lower center."
+      }
+    ],
+    "car": [
+      {
+        "name": "front_rear",
+        "description": "The front and rear ends contain lights, bumpers, grille, or trunk surfaces."
+      },
+      {
+        "name": "body",
+        "description": "The main body is a compact vehicle shell forming most of the visible mass."
+      },
+      {
+        "name": "roof",
+        "description": "The roof and cabin top create the upper contour of the vehicle."
+      },
+      {
+        "name": "windows",
+        "description": "Windshield and side windows form dark glass regions in the cabin."
+      },
+      {
+        "name": "wheels",
+        "description": "Round wheels anchor the lower corners and distinguish the car from roads or shadows."
+      }
+    ],
+    "motorcycle": [
+      {
+        "name": "wheels",
+        "description": "Two round wheels define the lower front and rear extent."
+      },
+      {
+        "name": "handlebar",
+        "description": "The handlebar and fork form the steering structure above the front wheel."
+      },
+      {
+        "name": "seat",
+        "description": "The seat is a narrow support above the central frame."
+      },
+      {
+        "name": "frame_engine",
+        "description": "The frame and engine create a dense mechanical cluster in the middle."
+      },
+      {
+        "name": "body_panels",
+        "description": "Body panels, tank, and fairing shape the visible outer surface."
+      }
+    ],
+    "airplane": [
+      {
+        "name": "nose",
+        "description": "The forward tapered nose forms the sharp leading silhouette of an airplane."
+      },
+      {
+        "name": "wings",
+        "description": "Broad lateral wings extend from the fuselage and define most of the object span."
+      },
+      {
+        "name": "fuselage",
+        "description": "The long central body links cockpit, wings, tail, and engines into one structure."
+      },
+      {
+        "name": "tail",
+        "description": "The rear vertical and horizontal stabilizers create a compact tail assembly."
+      },
+      {
+        "name": "engines",
+        "description": "Engine pods or intakes appear as rounded mechanical parts attached to wings or fuselage."
+      }
+    ],
+    "bus": [
+      {
+        "name": "front",
+        "description": "The front face contains windshield, lights, and a broad vertical vehicle plane."
+      },
+      {
+        "name": "side_body",
+        "description": "The long rectangular side body forms most of the bus mass."
+      },
+      {
+        "name": "windows",
+        "description": "Rows of large rectangular windows repeat along the upper side."
+      },
+      {
+        "name": "doors",
+        "description": "Passenger doors create vertical panels on the side or front."
+      },
+      {
+        "name": "wheels",
+        "description": "Large dark wheels appear along the lower edge of the vehicle."
+      }
+    ],
+    "train": [
+      {
+        "name": "front_engine",
+        "description": "The front engine or cab forms a leading face with windows and lights."
+      },
+      {
+        "name": "carriages",
+        "description": "Repeated carriage bodies extend along the track direction."
+      },
+      {
+        "name": "windows",
+        "description": "Rows of windows mark the passenger compartments."
+      },
+      {
+        "name": "wheels_tracks",
+        "description": "Wheels and undercarriage align with rails at the bottom."
+      },
+      {
+        "name": "roof",
+        "description": "The roofline forms a long upper contour across the train."
+      }
+    ],
+    "truck": [
+      {
+        "name": "cab",
+        "description": "The cab contains the windshield, side windows, doors, and driver compartment."
+      },
+      {
+        "name": "cargo_bed",
+        "description": "The cargo bed, box, or trailer forms the large rear load-carrying structure."
+      },
+      {
+        "name": "front_grille",
+        "description": "The front grille, bumper, and headlights create the heavy leading face."
+      },
+      {
+        "name": "wheels",
+        "description": "Large wheels and tires line the lower edge and indicate vehicle scale."
+      },
+      {
+        "name": "chassis",
+        "description": "The chassis and undercarriage connect cab, cargo area, axles, and wheels."
+      }
+    ],
+    "boat": [
+      {
+        "name": "hull",
+        "description": "The hull is the main floating body with a curved or elongated lower silhouette."
+      },
+      {
+        "name": "bow",
+        "description": "The bow is the pointed or raised front part cutting through water."
+      },
+      {
+        "name": "stern",
+        "description": "The stern is the rear structure, often flatter and sometimes containing a motor."
+      },
+      {
+        "name": "deck",
+        "description": "The deck is the top surface where cabins, seats, or rails appear."
+      },
+      {
+        "name": "mast_cabin",
+        "description": "A mast, cabin, or upper fixture provides vertical structure above the hull."
+      }
+    ],
+    "traffic light": [
+      {
+        "name": "signal_heads",
+        "description": "The signal heads are stacked or clustered housings containing the colored lenses."
+      },
+      {
+        "name": "red_lens",
+        "description": "The red lens is usually the upper or prominent circular light."
+      },
+      {
+        "name": "yellow_lens",
+        "description": "The yellow lens sits between red and green or beside them in a horizontal layout."
+      },
+      {
+        "name": "green_lens",
+        "description": "The green lens is one of the colored circular signal regions."
+      },
+      {
+        "name": "pole_mount",
+        "description": "The pole, arm, or mounting bracket supports the signal above the street."
+      }
+    ],
+    "fire hydrant": [
+      {
+        "name": "barrel",
+        "description": "The central barrel is the upright cylindrical body of the hydrant."
+      },
+      {
+        "name": "dome_cap",
+        "description": "The rounded top cap forms the highest visible part."
+      },
+      {
+        "name": "side_nozzles",
+        "description": "Side nozzles protrude from the barrel as short capped cylinders."
+      },
+      {
+        "name": "front_nozzle",
+        "description": "The front nozzle is a larger capped outlet on the face of the hydrant."
+      },
+      {
+        "name": "base",
+        "description": "The base is the wider bottom section bolted near the ground."
+      }
+    ],
+    "stop sign": [
+      {
+        "name": "sign_face",
+        "description": "The sign face is the flat red octagonal panel."
+      },
+      {
+        "name": "border",
+        "description": "The pale border follows the octagonal perimeter and separates the sign from background."
+      },
+      {
+        "name": "letters",
+        "description": "Large white letters occupy the center of the sign face."
+      },
+      {
+        "name": "post",
+        "description": "A vertical post supports the sign from below or behind."
+      },
+      {
+        "name": "mounting_bracket",
+        "description": "Small brackets or bolts attach the sign face to the post."
+      }
+    ],
+    "parking meter": [
+      {
+        "name": "meter_head",
+        "description": "The meter head is the rounded upper housing containing display and controls."
+      },
+      {
+        "name": "display",
+        "description": "The display or dial is a small visible panel on the front face."
+      },
+      {
+        "name": "coin_slot",
+        "description": "The coin or card slot appears as a narrow detail on the head."
+      },
+      {
+        "name": "pole",
+        "description": "A slim vertical pole supports the meter head."
+      },
+      {
+        "name": "base",
+        "description": "The base anchors the pole to the sidewalk or curb."
+      }
+    ],
+    "bench": [
+      {
+        "name": "seat_slats",
+        "description": "Horizontal seat slats or a continuous seat surface form the sitting area."
+      },
+      {
+        "name": "backrest",
+        "description": "The backrest rises behind the seat and often repeats the slat pattern."
+      },
+      {
+        "name": "legs",
+        "description": "Legs are vertical or angled supports beneath the seat."
+      },
+      {
+        "name": "armrests",
+        "description": "Armrests form lateral curved or straight supports at the ends."
+      },
+      {
+        "name": "frame",
+        "description": "The frame links seat, backrest, legs, and arms into one structure."
+      }
+    ],
+    "bird": [
+      {
+        "name": "beak",
+        "description": "The beak forms a narrow, tapering, sharply defined outer silhouette."
+      },
+      {
+        "name": "wings",
+        "description": "The wings are layered side structures that may be folded or spread from the body."
+      },
+      {
+        "name": "claws",
+        "description": "The claws are small pointed foot details at the lower end of the legs."
+      },
+      {
+        "name": "plumage",
+        "description": "The plumage is the feathered surface texture covering the body, wings, and head."
+      },
+      {
+        "name": "tail",
+        "description": "The tail feathers form a rear fan or tapered extension of the body."
+      }
+    ],
+    "cat": [
+      {
+        "name": "head",
+        "description": "The head contains the face, ears, eyes, and muzzle and is often highly salient."
+      },
+      {
+        "name": "ears",
+        "description": "Pointed ears create two triangular structures above the head."
+      },
+      {
+        "name": "torso",
+        "description": "The torso is the flexible central body covered by fur."
+      },
+      {
+        "name": "legs_paws",
+        "description": "Legs and paws form slender supports beneath or beside the torso."
+      },
+      {
+        "name": "tail",
+        "description": "The tail is a long curved extension from the rear body."
+      }
+    ],
+    "dog": [
+      {
+        "name": "head",
+        "description": "The head contains the muzzle, eyes, ears, and nose."
+      },
+      {
+        "name": "ears",
+        "description": "Ears may be pointed, floppy, or folded and sit on both sides of the head."
+      },
+      {
+        "name": "torso",
+        "description": "The torso is the central fur-covered body mass."
+      },
+      {
+        "name": "legs_paws",
+        "description": "Legs and paws support the body and extend below the torso."
+      },
+      {
+        "name": "tail",
+        "description": "The tail extends from the rear and may be curved, raised, or lowered."
+      }
+    ],
+    "horse": [
+      {
+        "name": "head_neck",
+        "description": "The elongated head and neck form a distinctive forward upper structure."
+      },
+      {
+        "name": "torso",
+        "description": "The large muscular torso forms the main body mass."
+      },
+      {
+        "name": "legs_hooves",
+        "description": "Long legs and hooves create four strong vertical supports."
+      },
+      {
+        "name": "mane",
+        "description": "The mane is a hair ridge along the neck."
+      },
+      {
+        "name": "tail",
+        "description": "The tail is a long hair-covered extension from the rear."
+      }
+    ],
+    "sheep": [
+      {
+        "name": "head",
+        "description": "The head includes muzzle, ears, and eyes and may contrast with wool."
+      },
+      {
+        "name": "wool_body",
+        "description": "The wool-covered torso forms a rounded textured mass."
+      },
+      {
+        "name": "legs",
+        "description": "Thin legs extend downward beneath the wool body."
+      },
+      {
+        "name": "ears",
+        "description": "Ears protrude laterally from the head."
+      },
+      {
+        "name": "tail",
+        "description": "A small tail may appear at the rear edge of the wool body."
+      }
+    ],
+    "cow": [
+      {
+        "name": "head",
+        "description": "The head includes muzzle, eyes, ears, and often horns."
+      },
+      {
+        "name": "torso",
+        "description": "The large barrel-shaped torso forms most of the cow's visible mass."
+      },
+      {
+        "name": "legs",
+        "description": "Four long legs support the heavy body and create vertical lower structures."
+      },
+      {
+        "name": "tail",
+        "description": "The tail is a thin rear extension often ending with a tuft."
+      },
+      {
+        "name": "hide_pattern",
+        "description": "The hide pattern and broad animal surface help distinguish the cow from background."
+      }
+    ],
+    "elephant": [
+      {
+        "name": "trunk",
+        "description": "The long flexible trunk descends from the face and is the most distinctive appendage."
+      },
+      {
+        "name": "ears",
+        "description": "Large broad ears extend from the sides of the head."
+      },
+      {
+        "name": "tusks",
+        "description": "Tusks, when visible, are pale curved extensions near the mouth."
+      },
+      {
+        "name": "body",
+        "description": "The massive rounded body forms most of the animal silhouette."
+      },
+      {
+        "name": "legs",
+        "description": "Thick column-like legs support the heavy body."
+      }
+    ],
+    "bear": [
+      {
+        "name": "head",
+        "description": "The broad head contains the muzzle, eyes, and rounded ears."
+      },
+      {
+        "name": "muzzle",
+        "description": "The protruding muzzle and nose form a distinct facial region."
+      },
+      {
+        "name": "torso",
+        "description": "The bulky torso creates a large fur-covered central mass."
+      },
+      {
+        "name": "legs_paws",
+        "description": "Thick legs and paws define support and stance."
+      },
+      {
+        "name": "fur",
+        "description": "Dense fur texture covers the body and softens the outline."
+      }
+    ],
+    "zebra": [
+      {
+        "name": "head_neck",
+        "description": "The elongated head and neck create a horse-like upper silhouette."
+      },
+      {
+        "name": "torso",
+        "description": "The torso is the main barrel-shaped body region."
+      },
+      {
+        "name": "legs_hooves",
+        "description": "Slender legs and hooves create vertical supports under the body."
+      },
+      {
+        "name": "mane",
+        "description": "A short upright mane follows the neck ridge."
+      },
+      {
+        "name": "stripe_pattern",
+        "description": "Black-and-white stripes cover the body and strongly identify the zebra."
+      }
+    ],
+    "giraffe": [
+      {
+        "name": "head",
+        "description": "The small head contains muzzle, ears, eyes, and ossicones."
+      },
+      {
+        "name": "long_neck",
+        "description": "The long vertical neck is the dominant upper body structure."
+      },
+      {
+        "name": "torso",
+        "description": "The torso is the large spotted body beneath the neck."
+      },
+      {
+        "name": "legs",
+        "description": "Long thin legs support the tall body."
+      },
+      {
+        "name": "spot_pattern",
+        "description": "Irregular brown patches cover the neck and torso and distinguish the giraffe."
+      }
+    ],
+    "backpack": [
+      {
+        "name": "main_bag",
+        "description": "The main bag is the largest soft rectangular or rounded storage volume."
+      },
+      {
+        "name": "front_pocket",
+        "description": "A front pocket or pouch forms a smaller panel on the outer face."
+      },
+      {
+        "name": "shoulder_straps",
+        "description": "Shoulder straps are long bands attached to the back or sides."
+      },
+      {
+        "name": "zippers",
+        "description": "Zippers and seams create narrow linear details across compartments."
+      },
+      {
+        "name": "handle",
+        "description": "A small top handle or loop may protrude above the bag."
+      }
+    ],
+    "umbrella": [
+      {
+        "name": "canopy",
+        "description": "The canopy is the broad circular or dome-shaped fabric surface."
+      },
+      {
+        "name": "ribs",
+        "description": "Ribs radiate from the center and divide the canopy into wedge-like panels."
+      },
+      {
+        "name": "tip",
+        "description": "The top or end tip is a small pointed cap on the canopy axis."
+      },
+      {
+        "name": "shaft",
+        "description": "The shaft is the thin central support below the canopy."
+      },
+      {
+        "name": "handle",
+        "description": "The handle is the lower curved or straight gripping part."
+      }
+    ],
+    "handbag": [
+      {
+        "name": "main_bag",
+        "description": "The main bag is the soft storage body with a compact silhouette."
+      },
+      {
+        "name": "handles",
+        "description": "Handles or straps arch above or attach to the sides."
+      },
+      {
+        "name": "flap_opening",
+        "description": "A flap, zipper opening, or top seam marks access to the bag."
+      },
+      {
+        "name": "side_panels",
+        "description": "Side panels define the bag thickness and contour."
+      },
+      {
+        "name": "hardware",
+        "description": "Buckles, clasps, rings, or metal details appear as small rigid parts."
+      }
+    ],
+    "tie": [
+      {
+        "name": "knot",
+        "description": "The knot is the compact upper triangular or rounded section near the collar."
+      },
+      {
+        "name": "blade",
+        "description": "The broad hanging blade forms the main tapered fabric region."
+      },
+      {
+        "name": "tip",
+        "description": "The pointed lower tip terminates the blade."
+      },
+      {
+        "name": "neck_band",
+        "description": "The neck band or upper strip passes around the collar area."
+      },
+      {
+        "name": "fabric_pattern",
+        "description": "Stripes, dots, or texture on the fabric help separate the tie from clothing."
+      }
+    ],
+    "suitcase": [
+      {
+        "name": "case_body",
+        "description": "The case body is the large rectangular storage shell."
+      },
+      {
+        "name": "handle",
+        "description": "A handle appears on the top, side, or extended telescoping support."
+      },
+      {
+        "name": "wheels",
+        "description": "Small wheels are often visible along the lower edge."
+      },
+      {
+        "name": "zippers_latches",
+        "description": "Zippers, latches, or seams mark the opening edges."
+      },
+      {
+        "name": "corners",
+        "description": "Rigid corners and edges define the box-like luggage shape."
+      }
+    ],
+    "frisbee": [
+      {
+        "name": "disc_face",
+        "description": "The disc face is the broad flat circular surface."
+      },
+      {
+        "name": "rim",
+        "description": "The raised rim forms the outer circular boundary."
+      },
+      {
+        "name": "center",
+        "description": "The center is the flatter inner circular region."
+      },
+      {
+        "name": "underside",
+        "description": "The underside may appear as a shaded curved lip when tilted."
+      },
+      {
+        "name": "logo_pattern",
+        "description": "Printed logos or color patterns help distinguish the disc from background."
+      }
+    ],
+    "skis": [
+      {
+        "name": "left_ski",
+        "description": "One long narrow ski forms a thin elongated runner."
+      },
+      {
+        "name": "right_ski",
+        "description": "The paired ski runs parallel or crosses with the other runner."
+      },
+      {
+        "name": "tips",
+        "description": "Curved front tips rise slightly from the snow."
+      },
+      {
+        "name": "bindings",
+        "description": "Bindings are compact fixtures near the center where boots attach."
+      },
+      {
+        "name": "poles",
+        "description": "Ski poles may appear as thin rods associated with the skis."
+      }
+    ],
+    "snowboard": [
+      {
+        "name": "board_body",
+        "description": "The board body is a single wide elongated plank."
+      },
+      {
+        "name": "nose_tail",
+        "description": "Rounded nose and tail curve up at the two ends."
+      },
+      {
+        "name": "bindings",
+        "description": "Two bindings sit on top where boots attach."
+      },
+      {
+        "name": "edge",
+        "description": "The long edge outlines the board against snow or air."
+      },
+      {
+        "name": "top_graphic",
+        "description": "Graphics or color panels cover the visible top surface."
+      }
+    ],
+    "sports ball": [
+      {
+        "name": "outer_surface",
+        "description": "The outer surface is the round or oval ball shell."
+      },
+      {
+        "name": "seams",
+        "description": "Seams divide the surface into panels or stitched regions."
+      },
+      {
+        "name": "panels",
+        "description": "Panels are repeated colored or textured sections on the ball."
+      },
+      {
+        "name": "logo_markings",
+        "description": "Logos, numbers, or printed markings help identify the ball."
+      },
+      {
+        "name": "highlight_shadow",
+        "description": "Curved highlight and shadow regions convey the spherical volume."
+      }
+    ],
+    "kite": [
+      {
+        "name": "canopy",
+        "description": "The canopy is the broad fabric or paper flying surface."
+      },
+      {
+        "name": "leading_edges",
+        "description": "Leading edges outline the kite perimeter and define its shape."
+      },
+      {
+        "name": "frame",
+        "description": "A light frame or spars support the canopy structure."
+      },
+      {
+        "name": "tail",
+        "description": "A tail may extend as a thin streamer from one end."
+      },
+      {
+        "name": "string",
+        "description": "A thin string connects the kite to the flyer and may be faintly visible."
+      }
+    ],
+    "baseball bat": [
+      {
+        "name": "barrel",
+        "description": "The barrel is the thicker hitting end of the bat."
+      },
+      {
+        "name": "handle",
+        "description": "The handle is the narrow gripping section."
+      },
+      {
+        "name": "knob",
+        "description": "The knob is the small flared end below the handle."
+      },
+      {
+        "name": "taper",
+        "description": "The taper transitions from the barrel to the handle."
+      },
+      {
+        "name": "surface_grain",
+        "description": "Wood grain, metal shine, or printed markings identify the bat surface."
+      }
+    ],
+    "baseball glove": [
+      {
+        "name": "palm",
+        "description": "The palm is the broad padded catching area."
+      },
+      {
+        "name": "webbing",
+        "description": "Webbing spans the gap between thumb and fingers."
+      },
+      {
+        "name": "thumb",
+        "description": "The thumb is the thick side extension of the glove."
+      },
+      {
+        "name": "finger_slots",
+        "description": "Finger slots form several rounded padded projections."
+      },
+      {
+        "name": "laces",
+        "description": "Laces and seams create thin crisscross details around the glove."
+      }
+    ],
+    "skateboard": [
+      {
+        "name": "deck",
+        "description": "The deck is the flat elongated board that supports the rider."
+      },
+      {
+        "name": "nose_tail",
+        "description": "The nose and tail curve upward at the ends of the deck."
+      },
+      {
+        "name": "trucks",
+        "description": "Metal trucks attach wheels to the underside of the deck."
+      },
+      {
+        "name": "wheels",
+        "description": "Small wheels sit near both ends below the board."
+      },
+      {
+        "name": "grip_graphic",
+        "description": "Grip texture or underside graphics help distinguish the board surfaces."
+      }
+    ],
+    "surfboard": [
+      {
+        "name": "board_body",
+        "description": "The board body is a long smooth buoyant surface."
+      },
+      {
+        "name": "nose",
+        "description": "The nose is the rounded or pointed front end."
+      },
+      {
+        "name": "tail",
+        "description": "The tail is the rear end and may be rounded, squared, or split."
+      },
+      {
+        "name": "fin",
+        "description": "A fin may protrude from the underside near the tail."
+      },
+      {
+        "name": "deck_pattern",
+        "description": "Color bands, wax marks, or logos appear on the deck surface."
+      }
+    ],
+    "tennis racket": [
+      {
+        "name": "head_frame",
+        "description": "The oval head frame surrounds the string bed."
+      },
+      {
+        "name": "strings",
+        "description": "The string bed is a grid of crossing lines inside the frame."
+      },
+      {
+        "name": "throat",
+        "description": "The throat connects the head frame to the handle."
+      },
+      {
+        "name": "handle",
+        "description": "The handle is the long gripped section held by the player."
+      },
+      {
+        "name": "butt_cap",
+        "description": "The butt cap is the small widened end of the handle."
+      }
+    ],
+    "bottle": [
+      {
+        "name": "neck",
+        "description": "The narrow neck rises above the wider body and leads to the opening."
+      },
+      {
+        "name": "cap",
+        "description": "The cap or top rim is a small closure at the highest point."
+      },
+      {
+        "name": "body",
+        "description": "The body is the main cylindrical or contoured volume of the bottle."
+      },
+      {
+        "name": "shoulder",
+        "description": "The shoulder is the sloped transition between body and neck."
+      },
+      {
+        "name": "base",
+        "description": "The base is the flat or rounded bottom support of the bottle."
+      }
+    ],
+    "wine glass": [
+      {
+        "name": "bowl",
+        "description": "The bowl is the curved transparent cup that holds liquid."
+      },
+      {
+        "name": "rim",
+        "description": "The rim is the thin circular upper edge of the bowl."
+      },
+      {
+        "name": "stem",
+        "description": "The stem is the slender vertical support below the bowl."
+      },
+      {
+        "name": "base",
+        "description": "The base is the flat foot supporting the glass."
+      },
+      {
+        "name": "liquid_highlight",
+        "description": "Liquid level, reflections, or highlights reveal the transparent glass shape."
+      }
+    ],
+    "cup": [
+      {
+        "name": "rim",
+        "description": "The rim is the circular upper opening of the cup."
+      },
+      {
+        "name": "body",
+        "description": "The body is the cylindrical, tapered, or rounded container wall."
+      },
+      {
+        "name": "handle",
+        "description": "A handle, when present, forms a curved side loop."
+      },
+      {
+        "name": "base",
+        "description": "The base is the lower support surface."
+      },
+      {
+        "name": "interior",
+        "description": "The interior or liquid surface appears inside the opening."
+      }
+    ],
+    "fork": [
+      {
+        "name": "tines",
+        "description": "Tines are the narrow prongs at the eating end."
+      },
+      {
+        "name": "neck",
+        "description": "The neck connects the tines to the handle."
+      },
+      {
+        "name": "handle",
+        "description": "The handle is the long gripping section."
+      },
+      {
+        "name": "shoulder",
+        "description": "The shoulder is the widened transition near the tines."
+      },
+      {
+        "name": "metal_highlight",
+        "description": "Specular highlights trace the reflective metal surface."
+      }
+    ],
+    "knife": [
+      {
+        "name": "blade",
+        "description": "The blade is the long flat cutting section."
+      },
+      {
+        "name": "edge",
+        "description": "The cutting edge is the thin bright boundary along the blade."
+      },
+      {
+        "name": "tip",
+        "description": "The tip is the pointed or rounded end of the blade."
+      },
+      {
+        "name": "handle",
+        "description": "The handle is the thicker gripping part."
+      },
+      {
+        "name": "bolster",
+        "description": "A bolster or joint may separate the blade from the handle."
+      }
+    ],
+    "spoon": [
+      {
+        "name": "bowl",
+        "description": "The spoon bowl is the oval concave eating end."
+      },
+      {
+        "name": "rim",
+        "description": "The rim outlines the edge of the spoon bowl."
+      },
+      {
+        "name": "handle",
+        "description": "The handle is the long narrow gripping section."
+      },
+      {
+        "name": "neck",
+        "description": "The neck narrows between handle and bowl."
+      },
+      {
+        "name": "metal_highlight",
+        "description": "Highlights and shadows reveal the curved reflective surface."
+      }
+    ],
+    "bowl": [
+      {
+        "name": "rim",
+        "description": "The rim is the oval or circular upper boundary."
+      },
+      {
+        "name": "inner_surface",
+        "description": "The inner surface forms the concave cavity."
+      },
+      {
+        "name": "outer_wall",
+        "description": "The outer wall is the curved side of the bowl."
+      },
+      {
+        "name": "base",
+        "description": "The base or foot supports the bowl at the bottom."
+      },
+      {
+        "name": "contents",
+        "description": "Food or liquid contents may occupy the interior and indicate the bowl region."
+      }
+    ],
+    "banana": [
+      {
+        "name": "curved_body",
+        "description": "The curved elongated body defines the banana silhouette."
+      },
+      {
+        "name": "peel_ridges",
+        "description": "Long peel ridges divide the surface into lengthwise sections."
+      },
+      {
+        "name": "stem",
+        "description": "The stem is the small dark attachment at one end."
+      },
+      {
+        "name": "tip",
+        "description": "The tip is the small tapered end opposite the stem."
+      },
+      {
+        "name": "surface_spots",
+        "description": "Dark spots or color variation mark the peel texture."
+      }
+    ],
+    "apple": [
+      {
+        "name": "round_body",
+        "description": "The round body is the main fruit volume."
+      },
+      {
+        "name": "stem",
+        "description": "The stem is a small protrusion at the top indentation."
+      },
+      {
+        "name": "top_dimple",
+        "description": "The top dimple surrounds the stem and creates a concave region."
+      },
+      {
+        "name": "skin_highlight",
+        "description": "Glossy skin highlights reveal the smooth curved surface."
+      },
+      {
+        "name": "color_patch",
+        "description": "Red, green, or yellow color patches help separate the apple from background."
+      }
+    ],
+    "sandwich": [
+      {
+        "name": "bread_slices",
+        "description": "Bread slices form the outer layered surfaces of the sandwich."
+      },
+      {
+        "name": "filling",
+        "description": "Filling layers sit between bread pieces and may show meat, cheese, or vegetables."
+      },
+      {
+        "name": "crust",
+        "description": "Crust edges outline the bread boundary."
+      },
+      {
+        "name": "cut_face",
+        "description": "A cut face reveals stacked ingredients and triangular or rectangular geometry."
+      },
+      {
+        "name": "surface_texture",
+        "description": "Bread texture and ingredient patterns distinguish the sandwich from a plate."
+      }
+    ],
+    "orange": [
+      {
+        "name": "round_body",
+        "description": "The round body is the main citrus fruit volume."
+      },
+      {
+        "name": "peel_texture",
+        "description": "Dimpled peel texture covers the surface."
+      },
+      {
+        "name": "stem_navel",
+        "description": "A small stem mark or navel appears as a spot at one end."
+      },
+      {
+        "name": "segments",
+        "description": "Segments may be visible when the orange is peeled or cut."
+      },
+      {
+        "name": "color_highlight",
+        "description": "Orange color and curved highlights define the fruit against surroundings."
+      }
+    ],
+    "broccoli": [
+      {
+        "name": "florets",
+        "description": "Florets form clustered bumpy crowns at the top."
+      },
+      {
+        "name": "stalk",
+        "description": "The stalk is the thicker pale green support below the florets."
+      },
+      {
+        "name": "branches",
+        "description": "Branches split from the stalk into smaller floret supports."
+      },
+      {
+        "name": "crown_outline",
+        "description": "The crown outline is irregular and lumpy rather than smooth."
+      },
+      {
+        "name": "texture",
+        "description": "Fine granular texture distinguishes the edible head from leaves or background."
+      }
+    ],
+    "carrot": [
+      {
+        "name": "tapered_root",
+        "description": "The tapered root is the long orange conical body."
+      },
+      {
+        "name": "tip",
+        "description": "The tip is the narrow pointed end of the root."
+      },
+      {
+        "name": "top",
+        "description": "The top is the wider end where greens may attach."
+      },
+      {
+        "name": "leafy_stem",
+        "description": "Leafy stems or green tops may protrude from the root."
+      },
+      {
+        "name": "surface_ridges",
+        "description": "Horizontal ridges and texture lines mark the carrot surface."
+      }
+    ],
+    "hot dog": [
+      {
+        "name": "bun",
+        "description": "The bun forms the long split bread cradle around the filling."
+      },
+      {
+        "name": "sausage",
+        "description": "The sausage is the elongated central meat portion."
+      },
+      {
+        "name": "condiments",
+        "description": "Condiments create narrow colored stripes or patches on top."
+      },
+      {
+        "name": "ends",
+        "description": "Rounded ends of bun or sausage define the object length."
+      },
+      {
+        "name": "filling_gap",
+        "description": "The central gap between bun halves exposes sausage and toppings."
+      }
+    ],
+    "pizza": [
+      {
+        "name": "crust",
+        "description": "The crust forms the raised outer edge or slice border."
+      },
+      {
+        "name": "cheese",
+        "description": "Cheese covers much of the flat surface as a melted layer."
+      },
+      {
+        "name": "toppings",
+        "description": "Toppings create repeated small colored regions across the cheese."
+      },
+      {
+        "name": "slice_tip",
+        "description": "A triangular slice has a pointed tip toward the center."
+      },
+      {
+        "name": "sauce_surface",
+        "description": "Sauce and browned patches provide textured color under the cheese."
+      }
+    ],
+    "donut": [
+      {
+        "name": "ring_body",
+        "description": "The ring body is the circular pastry volume."
+      },
+      {
+        "name": "center_hole",
+        "description": "The center hole is the distinctive empty circular opening."
+      },
+      {
+        "name": "icing",
+        "description": "Icing forms a colored top layer over the pastry."
+      },
+      {
+        "name": "sprinkles",
+        "description": "Sprinkles or toppings appear as small bright pieces on icing."
+      },
+      {
+        "name": "outer_edge",
+        "description": "The rounded outer edge defines the pastry silhouette."
+      }
+    ],
+    "cake": [
+      {
+        "name": "cake_body",
+        "description": "The cake body is the main layered or block-like dessert volume."
+      },
+      {
+        "name": "frosting",
+        "description": "Frosting covers the top and sides as a smooth or textured layer."
+      },
+      {
+        "name": "layers",
+        "description": "Visible layers divide the cake horizontally or vertically when cut."
+      },
+      {
+        "name": "decorations",
+        "description": "Candles, fruit, icing shapes, or toppings decorate the surface."
+      },
+      {
+        "name": "slice_face",
+        "description": "A cut face reveals crumb texture and filling layers."
+      }
+    ],
+    "chair": [
+      {
+        "name": "backrest",
+        "description": "The backrest is the upright support behind the seating area."
+      },
+      {
+        "name": "seat",
+        "description": "The seat is the horizontal surface where a person sits."
+      },
+      {
+        "name": "legs",
+        "description": "The legs are narrow supports descending from the seat to the ground."
+      },
+      {
+        "name": "arms",
+        "description": "Armrests, when present, form lateral supports beside the seat."
+      },
+      {
+        "name": "frame",
+        "description": "The frame connects backrest, seat, legs, and arms into a single object."
+      }
+    ],
+    "couch": [
+      {
+        "name": "backrest",
+        "description": "The backrest is the large rear cushion or upholstered vertical plane."
+      },
+      {
+        "name": "seat_cushions",
+        "description": "Seat cushions create broad horizontal padded regions."
+      },
+      {
+        "name": "armrests",
+        "description": "Armrests form bulky side structures on one or both ends."
+      },
+      {
+        "name": "base",
+        "description": "The lower base supports the cushions and often sits close to the floor."
+      },
+      {
+        "name": "upholstery",
+        "description": "Continuous upholstery texture links the cushions into one couch object."
+      }
+    ],
+    "potted plant": [
+      {
+        "name": "pot",
+        "description": "The pot is the container at the base with a solid geometric silhouette."
+      },
+      {
+        "name": "stem",
+        "description": "Stems rise from the pot and connect leaves or flowers."
+      },
+      {
+        "name": "leaves",
+        "description": "Leaves create irregular green shapes around the upper plant."
+      },
+      {
+        "name": "flowers",
+        "description": "Flowers, when present, add small bright regions among leaves."
+      },
+      {
+        "name": "soil_base",
+        "description": "The soil or base region sits between pot rim and plant stems."
+      }
+    ],
+    "bed": [
+      {
+        "name": "mattress",
+        "description": "The mattress is the broad horizontal sleeping surface."
+      },
+      {
+        "name": "headboard",
+        "description": "The headboard is the upright panel at one end of the bed."
+      },
+      {
+        "name": "pillows",
+        "description": "Pillows form soft rectangular or rounded cushions near the headboard."
+      },
+      {
+        "name": "blanket",
+        "description": "A blanket, quilt, or sheet covers much of the mattress."
+      },
+      {
+        "name": "frame_legs",
+        "description": "The frame and legs support the mattress above the floor."
+      }
+    ],
+    "dining table": [
+      {
+        "name": "tabletop",
+        "description": "The tabletop is the broad horizontal surface defining the table extent."
+      },
+      {
+        "name": "edges",
+        "description": "Straight edges and corners outline the tabletop boundary."
+      },
+      {
+        "name": "legs",
+        "description": "Table legs are vertical supports beneath the top."
+      },
+      {
+        "name": "apron_frame",
+        "description": "The apron or support frame connects the top to the legs."
+      },
+      {
+        "name": "surface_items",
+        "description": "Objects on the tabletop may occlude it but still indicate the table region."
+      }
+    ],
+    "toilet": [
+      {
+        "name": "bowl",
+        "description": "The bowl is the rounded basin forming the lower front structure."
+      },
+      {
+        "name": "seat_lid",
+        "description": "The seat and lid create oval rings or flat panels above the bowl."
+      },
+      {
+        "name": "tank",
+        "description": "The tank is the rectangular reservoir behind the bowl."
+      },
+      {
+        "name": "base",
+        "description": "The base connects the bowl to the floor."
+      },
+      {
+        "name": "flush_handle",
+        "description": "The flush handle or button appears as a small control on the tank."
+      }
+    ],
+    "tv": [
+      {
+        "name": "screen",
+        "description": "The screen is the large flat rectangular display area."
+      },
+      {
+        "name": "bezel",
+        "description": "The bezel is the border framing the screen."
+      },
+      {
+        "name": "stand",
+        "description": "The stand supports the television below or behind the display."
+      },
+      {
+        "name": "base",
+        "description": "The base is the flat lower support connected to the stand."
+      },
+      {
+        "name": "back_panel",
+        "description": "The rear panel and casing define the television volume when seen from an angle."
+      }
+    ],
+    "laptop": [
+      {
+        "name": "screen",
+        "description": "The screen is the upright display panel."
+      },
+      {
+        "name": "keyboard",
+        "description": "The keyboard is the grid of keys on the lower base."
+      },
+      {
+        "name": "trackpad",
+        "description": "The trackpad is the flat rectangular input area below the keyboard."
+      },
+      {
+        "name": "hinge",
+        "description": "The hinge connects the screen to the base."
+      },
+      {
+        "name": "base_body",
+        "description": "The base body is the thin lower shell supporting keyboard and ports."
+      }
+    ],
+    "mouse": [
+      {
+        "name": "body",
+        "description": "The rounded body is the main palm-sized shell."
+      },
+      {
+        "name": "buttons",
+        "description": "Left and right buttons form separated top panels."
+      },
+      {
+        "name": "scroll_wheel",
+        "description": "The scroll wheel is a small central cylinder or slot between buttons."
+      },
+      {
+        "name": "cable",
+        "description": "A cable may extend from the front of wired mice."
+      },
+      {
+        "name": "base_edge",
+        "description": "The lower edge outlines the mouse against the desk."
+      }
+    ],
+    "remote": [
+      {
+        "name": "body",
+        "description": "The remote body is a long narrow rectangular handheld shell."
+      },
+      {
+        "name": "buttons",
+        "description": "Buttons form repeated small circular or rectangular controls."
+      },
+      {
+        "name": "direction_pad",
+        "description": "A direction pad or central control cluster appears near the middle."
+      },
+      {
+        "name": "display",
+        "description": "A small display or label area may appear near the top."
+      },
+      {
+        "name": "end_caps",
+        "description": "Rounded or squared end caps define the top and bottom silhouette."
+      }
+    ],
+    "keyboard": [
+      {
+        "name": "key_grid",
+        "description": "The key grid is the repeated array of small rectangular keys."
+      },
+      {
+        "name": "spacebar",
+        "description": "The spacebar is the long horizontal key near the lower center."
+      },
+      {
+        "name": "case",
+        "description": "The case or frame surrounds the key grid."
+      },
+      {
+        "name": "function_keys",
+        "description": "Function keys form a row of smaller keys along the top."
+      },
+      {
+        "name": "cable",
+        "description": "A cable may extend from the keyboard body."
+      }
+    ],
+    "cell phone": [
+      {
+        "name": "screen",
+        "description": "The screen is the flat rectangular glass display area."
+      },
+      {
+        "name": "bezel",
+        "description": "The bezel or frame borders the screen."
+      },
+      {
+        "name": "body",
+        "description": "The body is the thin rectangular handheld slab."
+      },
+      {
+        "name": "camera",
+        "description": "Camera lenses or flash appear as small circles on the front or back."
+      },
+      {
+        "name": "buttons_ports",
+        "description": "Side buttons and charging ports form small edge details."
+      }
+    ],
+    "microwave": [
+      {
+        "name": "door",
+        "description": "The door is the large front panel used to access the oven cavity."
+      },
+      {
+        "name": "window",
+        "description": "The window is the dark or perforated viewing area on the door."
+      },
+      {
+        "name": "control_panel",
+        "description": "The control panel contains buttons, numbers, or a display on one side."
+      },
+      {
+        "name": "handle",
+        "description": "The handle or release button marks how the door opens."
+      },
+      {
+        "name": "body",
+        "description": "The boxy body encloses the appliance and defines its rectangular volume."
+      }
+    ],
+    "oven": [
+      {
+        "name": "door",
+        "description": "The door is the large front access panel."
+      },
+      {
+        "name": "window",
+        "description": "The window is the dark glass region in the door."
+      },
+      {
+        "name": "control_knobs",
+        "description": "Knobs or buttons line the top or front control area."
+      },
+      {
+        "name": "handle",
+        "description": "The handle is a horizontal bar attached to the door."
+      },
+      {
+        "name": "body_rack",
+        "description": "The appliance body and interior racks define the cooking chamber."
+      }
+    ],
+    "toaster": [
+      {
+        "name": "body",
+        "description": "The toaster body is a compact rectangular metal or plastic shell."
+      },
+      {
+        "name": "slots",
+        "description": "Slots on the top hold bread slices."
+      },
+      {
+        "name": "lever",
+        "description": "The side lever controls lowering and raising toast."
+      },
+      {
+        "name": "controls",
+        "description": "Buttons or dials appear on the side panel."
+      },
+      {
+        "name": "base",
+        "description": "The base supports the toaster on the counter."
+      }
+    ],
+    "sink": [
+      {
+        "name": "basin",
+        "description": "The basin is the concave bowl or rectangular depression."
+      },
+      {
+        "name": "rim",
+        "description": "The rim outlines the upper edge of the basin."
+      },
+      {
+        "name": "faucet",
+        "description": "The faucet rises above the basin and dispenses water."
+      },
+      {
+        "name": "drain",
+        "description": "The drain is a small circular opening at the bottom."
+      },
+      {
+        "name": "counter_mount",
+        "description": "The counter or mounting surface surrounds and supports the sink."
+      }
+    ],
+    "refrigerator": [
+      {
+        "name": "doors",
+        "description": "Large vertical doors form the main front panels."
+      },
+      {
+        "name": "handles",
+        "description": "Handles run vertically or horizontally along the doors."
+      },
+      {
+        "name": "body",
+        "description": "The tall rectangular body defines the appliance volume."
+      },
+      {
+        "name": "freezer_section",
+        "description": "A freezer section may appear as a separate upper, lower, or side door."
+      },
+      {
+        "name": "vents_panel",
+        "description": "Vents, dispenser panels, or brand plates create small front details."
+      }
+    ],
+    "book": [
+      {
+        "name": "cover",
+        "description": "The cover is the broad rectangular outer surface."
+      },
+      {
+        "name": "pages",
+        "description": "Pages appear as stacked thin sheets along one or more edges."
+      },
+      {
+        "name": "spine",
+        "description": "The spine is the bound edge connecting front and back covers."
+      },
+      {
+        "name": "corners",
+        "description": "Corners and straight edges define the rectangular book shape."
+      },
+      {
+        "name": "text_graphics",
+        "description": "Printed text or graphics on the cover or pages help identify the book."
+      }
+    ],
+    "clock": [
+      {
+        "name": "face",
+        "description": "The face is the circular, square, or rectangular display area."
+      },
+      {
+        "name": "hands",
+        "description": "Analog hands point from the center to numbers or tick marks."
+      },
+      {
+        "name": "numbers_ticks",
+        "description": "Numbers or tick marks around the face indicate time positions."
+      },
+      {
+        "name": "frame",
+        "description": "The frame or bezel surrounds the clock face."
+      },
+      {
+        "name": "stand_mount",
+        "description": "A stand, base, strap, or wall mount supports the clock."
+      }
+    ],
+    "vase": [
+      {
+        "name": "opening",
+        "description": "The opening is the top mouth of the vase."
+      },
+      {
+        "name": "neck",
+        "description": "The neck narrows below the opening when present."
+      },
+      {
+        "name": "body",
+        "description": "The body is the main curved container volume."
+      },
+      {
+        "name": "base",
+        "description": "The base is the bottom support surface."
+      },
+      {
+        "name": "surface_pattern",
+        "description": "Decorative color, glaze, or texture marks the vase surface."
+      }
+    ],
+    "scissors": [
+      {
+        "name": "blades",
+        "description": "Two metal blades cross or meet at the cutting end."
+      },
+      {
+        "name": "tips",
+        "description": "Sharp blade tips form pointed ends."
+      },
+      {
+        "name": "pivot",
+        "description": "The pivot screw connects the two halves near the center."
+      },
+      {
+        "name": "handles",
+        "description": "Handle loops form rounded gripping holes."
+      },
+      {
+        "name": "finger_rings",
+        "description": "Finger rings are the inner openings within the handles."
+      }
+    ],
+    "teddy bear": [
+      {
+        "name": "head",
+        "description": "The head is the rounded upper plush part with facial features."
+      },
+      {
+        "name": "ears",
+        "description": "Round ears protrude from the top sides of the head."
+      },
+      {
+        "name": "torso",
+        "description": "The torso is the soft central stuffed body."
+      },
+      {
+        "name": "arms_legs",
+        "description": "Stubby arms and legs extend from the torso."
+      },
+      {
+        "name": "muzzle_paws",
+        "description": "The muzzle and paw pads create smaller contrasting plush details."
+      }
+    ],
+    "hair drier": [
+      {
+        "name": "barrel",
+        "description": "The barrel is the tubular nozzle housing where air exits."
+      },
+      {
+        "name": "nozzle",
+        "description": "The nozzle is the narrowed front opening of the barrel."
+      },
+      {
+        "name": "handle",
+        "description": "The handle extends downward for gripping."
+      },
+      {
+        "name": "buttons",
+        "description": "Buttons or switches appear on the handle or body."
+      },
+      {
+        "name": "cord",
+        "description": "A power cord may extend from the bottom of the handle."
+      }
+    ],
+    "toothbrush": [
+      {
+        "name": "handle",
+        "description": "The handle is the long narrow gripping part."
+      },
+      {
+        "name": "neck",
+        "description": "The neck is the thinner transition between handle and head."
+      },
+      {
+        "name": "head",
+        "description": "The head is the small end that carries the bristles."
+      },
+      {
+        "name": "bristles",
+        "description": "Bristles form a dense tufted texture on the head."
+      },
+      {
+        "name": "grip_pattern",
+        "description": "Rubber grips or color bands mark the handle surface."
+      }
+    ]
+  }
+}
